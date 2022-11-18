@@ -1,0 +1,20 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/src/.vs
+/src/CarShop.Api/bin/Debug/net6.0
+/src/CarShop.Api/obj
+/src/CarShop.Application/bin/Debug/net6.0
+/src/CarShop.Application/obj
+/src/CarShop.Domain/bin/Debug/net6.0
+/src/CarShop.Domain/obj
+/src/CarShop.Infra.Ioc/bin/Debug/net6.0
+/src/CarShop.Infra.Ioc/obj
+/src/CarShop.Infra.Repository/bin/Debug/net6.0
+/src/CarShop.Infra.Repository/obj
+/src/CarShop.Web/bin/Debug/net6.0
+/src/CarShop.Web/obj
+/src/CharShop.Shared/bin/Debug/net6.0
+/src/CharShop.Shared/obj
