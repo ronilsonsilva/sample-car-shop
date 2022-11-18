@@ -1,0 +1,87 @@
+﻿@page "/create-order/{carId}"
+@using CarShop.Shared.DTOs;
+@using CarShop.Web.Services;
+@using CarShop.Web.ViewModels;
+@inject NavigationManager NavigationManager
+
+<PageTitle>Create Order</PageTitle>
+
+<h1>New Order</h1>
+
+
+
+<EditForm Model="@model" OnValidSubmit="HandleValidSubmit">
+    <DataAnnotationsValidator />
+    <ValidationSummary />
+    <div class="row">
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="first-name">First Name</label>
+                <InputText id="first-name" @bind-Value="model.FirstName" class="form-control" />
+            </div>
+        </div>
+        <div class="col-md-6">
+            <div class="form-group">
+                <label for="first-name">Last Name</label>
+                <InputText id="last-name" @bind-Value="model.LastName" class="form-control"/>
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="age">Age</label>
+                <InputNumber id="age" @bind-Value="model.Age" class="form-control"/>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="martial-status">Martial Status</label>
+                <InputSelect id="martial-status" @bind-Value="model.MartialStatus" class="form-control">
+                    @foreach (var value in Enum.GetValues<MartialStatusEnumDto>())
+                    {
+                        <option value="@value">@value</option>
+                    }
+                </InputSelect>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="form-group">
+                <label for="occupation">Occupation</label>
+                <InputText id="occupation" @bind-Value="model.Occupation" class="form-control"/>
+            </div>
+        </div>
+    </div>
+
+    <div class="row m-1">
+        <div class="col-md-12">
+            <div class="align-content-center">
+                <button type="submit" class="btn btn-primary btn-lg">Send</button>
+            </div>
+            
+        </div>
+    </div>
+    
+
+</EditForm>
+
+
+@code {
+
+    [Parameter]
+    public string CarId { get; set; }
+
+    [Inject]
+    public IOrderServices OrderServices { get; set; }
+
+    private NewOrderViewModel model = new NewOrderViewModel();
+
+    private async void HandleValidSubmit()
+    {
+        model.CarId = int.Parse(CarId);
+        await OrderServices.Create(model);
+        NavigationManager.NavigateTo("orders");
+        Console.WriteLine("OnValidSubmit");
+    }
+    
+}

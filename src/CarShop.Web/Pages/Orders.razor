@@ -1,0 +1,53 @@
+﻿@page "/orders"
+@using CarShop.Shared.DTOs;
+@using CarShop.Web.Services;
+@inject HttpClient Http
+
+<PageTitle>Orders List</PageTitle>
+
+<h1>Orders List</h1>
+
+
+@if (OrdersList == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Order ID</th>
+                <th>Product ID</th>
+                <th>Customer</th>
+                <th>Age</th>
+                <th>Date Created</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var order in OrdersList)
+            {
+                <tr>
+                    <td>@order.OrderId</td>
+                    <td>@order.ProductId</td>
+                    <td>@order.CustomerFullName</td>
+                    <td>@order.Age</td>
+                    <td>@order.DateCreated.ToShortDateString()</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+@code {
+    private IList<OrderListDto>? OrdersList { get; set; }
+
+    [Inject]
+    private IOrderServices OrderServices { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        OrdersList = await OrderServices.GetOrders();
+    }
+
+}

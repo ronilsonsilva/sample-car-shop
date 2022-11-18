@@ -1,0 +1,70 @@
+﻿@page "/"
+@using CarShop.Shared.DTOs;
+@using CarShop.Web.Services;
+
+@inject NavigationManager NavigationManager
+
+<PageTitle>Index</PageTitle>
+
+<h1>Hello, buy your new car!</h1>
+
+@if (cars == null)
+{
+    <p><em>Loading...</em></p>
+}
+else
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Id</th>
+                <th>Make</th>
+                <th>Model</th>
+                <th>Year</th>
+                <th>Doors</th>
+                <th>Color</th>
+                <th>Price</th>
+                <th></th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var car in cars)
+            {
+                <tr>
+                    <td>@car.Id</td>
+                    <td>@car.Make</td>
+                    <td>@car.Model</td>
+                    <td>@car.Years</td>
+                    <td>@car.Doors</td>
+                    <td>@car.Colors</td>
+                    <td>@car.Price</td>
+                    <td>
+                        <button @onclick="(()=> CreateOrder(car.Id))" class="btn btn-primary">
+                            Buy
+                        </button>
+                    </td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+
+<SurveyPrompt Title="How is Blazor working for you?" />
+
+
+@code {
+    private IList<CarDto>? cars;
+    [Inject]
+    public ICarServices CarServices { get; set; }
+
+    protected override async Task OnInitializedAsync()
+    {
+        cars = await CarServices.GetCars();
+    }
+
+    public void CreateOrder(int id)
+    {
+        NavigationManager.NavigateTo("create-order/" + id);
+    }
+
+}
